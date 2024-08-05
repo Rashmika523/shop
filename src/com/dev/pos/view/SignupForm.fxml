@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.dev.pos.controller.SignupFormController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane fx:id="context" prefHeight="404.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dev.pos.controller.SignupFormController">
+   <children>
+      <Label layoutX="79.0" layoutY="31.0" prefHeight="27.0" prefWidth="176.0" text="Create an Account" textFill="#3498db">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtEmail" layoutX="61.0" layoutY="97.0" prefHeight="33.0" prefWidth="210.0" promptText="Email">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="txtPassword" layoutX="61.0" layoutY="157.0" prefHeight="33.0" prefWidth="210.0" promptText="Password">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </PasswordField>
+      <JFXButton layoutX="61.0" layoutY="216.0" onAction="#btnRegisterOnAction" prefHeight="30.0" prefWidth="210.0" style="-fx-background-color: #3498db;" text="Register Now" textAlignment="CENTER" textFill="#f8f8f8">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="147.0" layoutY="257.0" prefHeight="27.0" prefWidth="39.0" text="OR" textFill="#3498db">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="61.0" layoutY="293.0" onAction="#btnAlreadyHaveOnAction" prefHeight="30.0" prefWidth="210.0" style="-fx-background-color: #34495e;" text="Already Have an Account" textAlignment="CENTER" textFill="#f8f8f8">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <Separator layoutX="14.0" layoutY="74.0" prefHeight="1.0" prefWidth="270.0" />
+   </children>
 </AnchorPane>
