@@ -23,6 +23,7 @@ public class SignupFormController {
     }
 
     public void btnSignupOnAction(ActionEvent actionEvent) {
+
     }
 
     public void btnAlreadyHaveAnAccountOnAction(ActionEvent actionEvent) throws IOException {
