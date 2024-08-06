@@ -31,14 +31,14 @@ public class LoginFormController {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 if (PasswordManager.checkPassword(txtPassword.getText().trim(), resultSet.getString("password"))) {
-                    System.out.println("Done");
+                    setUI("DashboardForm");
                 }else {
                     new Alert(Alert.AlertType.ERROR,"User Not found...!").show();
                 }
             }else {
                 new Alert(Alert.AlertType.ERROR,"User Not found...!").show();
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException | IOException e) {
             System.out.println(e.getMessage());
         }
 
