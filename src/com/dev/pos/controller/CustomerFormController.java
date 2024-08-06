@@ -46,6 +46,11 @@ public class CustomerFormController {
         colDelete.setCellValueFactory(new PropertyValueFactory<>("button"));
 
         loadCustomer(searchText);
+
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchText = newValue;
+            loadCustomer(searchText);
+        });
     }
 
 
@@ -76,6 +81,7 @@ public class CustomerFormController {
                     if (isSaved) {
                         new Alert(Alert.AlertType.INFORMATION, "Customer has been saved...!").show();
                         clearFields();
+                        loadCustomer(searchText);
                     } else {
                         new Alert(Alert.AlertType.INFORMATION, "Something went wrong, Try again...!").show();
                     }
@@ -109,7 +115,7 @@ public class CustomerFormController {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try {
             int counter =1;
-            for(CustomerDTO dto : DatabaseAccessCode.searchCustomer(searchText)){
+            for(CustomerDTO dto : (txtSearch.getLength()>0?DatabaseAccessCode.searchCustomer(searchText):DatabaseAccessCode.findAllCustomer())){
                 Button button = new Button("Delete");
                 CustomerTm customerTm = new CustomerTm(
                         counter,
