@@ -30,11 +30,14 @@ public class SignupFormController {
     public void btnSignupOnAction(ActionEvent actionEvent) {
 
         try {
+
             Connection connection = DBConnection.getInstance().getConnection();
             String sql = "INSERT INTO user VALUES (?,?)";
+
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,txtEmail.getText());
             preparedStatement.setString(2,txtPassword.getText());
+
             int count = preparedStatement.executeUpdate();
             if(count>0){
                 new Alert(Alert.AlertType.INFORMATION,"User has been Saved...!").show();
