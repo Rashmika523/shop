@@ -16,6 +16,7 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class CustomerFormController {
     public AnchorPane context;
@@ -154,6 +155,26 @@ public class CustomerFormController {
                 );
                 counter++;
                 obList.add(customerTm);
+
+                //Customer Delete
+                button.setOnAction(event -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure...?",ButtonType.NO,ButtonType.YES);
+                    Optional<ButtonType> buttonType = alert.showAndWait();
+                    if(buttonType.get().equals(ButtonType.YES)){
+                        try {
+                            boolean isDeleted = DatabaseAccessCode.deleteCustomer(dto.getEmail());
+                            if(isDeleted){
+                                new Alert(Alert.AlertType.INFORMATION,"Customer has been Deleted...!").show();
+                                loadCustomer(searchText);
+                                clearFields();
+                                btnSave.setText("Save Customer");
+                            }
+                        }catch (ClassNotFoundException | SQLException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
             }
             tblCustomer.setItems(obList);
         }catch (ClassNotFoundException | SQLException e){
