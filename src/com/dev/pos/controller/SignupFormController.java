@@ -1,5 +1,6 @@
 package com.dev.pos.controller;
 
+import com.dev.pos.dao.DatabaseAccessCode;
 import com.dev.pos.db.DBConnection;
 import com.dev.pos.util.security.PasswordManager;
 import javafx.event.ActionEvent;
@@ -32,24 +33,17 @@ public class SignupFormController {
 
         try {
 
-            Connection connection = DBConnection.getInstance().getConnection();
-            String sql = "INSERT INTO user VALUES (?,?)";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,txtEmail.getText());
-            preparedStatement.setString(2, PasswordManager.encrypt(txtPassword.getText().trim()));
-
-            int count = preparedStatement.executeUpdate();
-            if(count>0){
-                new Alert(Alert.AlertType.INFORMATION,"User has been Saved...!").show();
+            boolean isSaved = DatabaseAccessCode.createUser(txtEmail.getText(), txtPassword.getText().trim());
+            if(isSaved){
+                new Alert(Alert.AlertType.INFORMATION,"User has been saved...!").show();
                 setUI("LoginForm");
             }else {
-                new Alert(Alert.AlertType.INFORMATION,"Something went wrong, Try again...!").show();
+                new Alert(Alert.AlertType.INFORMATION,"User Not Found...!").show();
             }
-        } catch (SQLException | ClassNotFoundException | IOException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage().toString()).show();
-        }
 
+        }catch (SQLException | ClassNotFoundException | IOException e){
+            e.printStackTrace();
+        }
 
     }
 

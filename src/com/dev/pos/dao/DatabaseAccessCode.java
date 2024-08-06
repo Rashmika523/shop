@@ -21,10 +21,11 @@ public class DatabaseAccessCode {
         String sql = "INSERT INTO user VALUES (?,?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
         preparedStatement.setString(1, email);
         preparedStatement.setString(2, PasswordManager.encrypt(password));
 
-        return preparedStatement.executeUpdate() > 0;
+        return preparedStatement.executeUpdate()>0;
     }
 
     public static UserDTO findUser(String email) throws SQLException, ClassNotFoundException {
@@ -32,8 +33,11 @@ public class DatabaseAccessCode {
         Connection connection = DBConnection.getInstance().getConnection();
         String sql = "SELECT * FROM user WHERE email =?";
         PreparedStatement statement = connection.prepareStatement(sql);
+
         statement.setString(1, email);
+
         ResultSet resultSet = statement.executeQuery();
+
         if (resultSet.next()) {
             return new UserDTO(
                     resultSet.getString(1),

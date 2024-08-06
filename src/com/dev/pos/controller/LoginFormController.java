@@ -1,6 +1,8 @@
 package com.dev.pos.controller;
 
+import com.dev.pos.dao.DatabaseAccessCode;
 import com.dev.pos.db.DBConnection;
+import com.dev.pos.dto.UserDTO;
 import com.dev.pos.util.security.PasswordManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,18 @@ public class LoginFormController {
 
     public void btnLoginOnAction(ActionEvent actionEvent) {
 
+        try {
+            UserDTO user = DatabaseAccessCode.findUser(txtEmail.getText());
+
+            if(PasswordManager.checkPassword(txtPassword.getText(),user.getPassword())){
+                setUI("DashboardForm");
+            }else {
+                new Alert(Alert.AlertType.INFORMATION,"User Not Found...!").show();
+            }
+
+        }catch (ClassNotFoundException | SQLException | IOException e){
+            e.printStackTrace();
+        }
 
     }
 
