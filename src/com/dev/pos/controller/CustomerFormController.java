@@ -47,10 +47,28 @@ public class CustomerFormController {
 
         loadCustomer(searchText);
 
+        //Listener for search bar
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             searchText = newValue;
             loadCustomer(searchText);
         });
+
+        //Listener for table
+        tblCustomer.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null){
+                setData(newValue);
+            }
+        });
+    }
+
+    private void setData(CustomerTm newValue) {
+        txtEmail.setEditable(false);
+        btnSave.setText("Update Customer");
+
+        txtName.setText(newValue.getName());
+        txtContact.setText(newValue.getContact());
+        txtSalary.setText(String.valueOf(newValue.getSalary()));
+        txtEmail.setText(newValue.getEmail());
     }
 
 
