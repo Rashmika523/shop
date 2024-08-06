@@ -15,15 +15,15 @@ public class DatabaseAccessCode {
 
     //.................User....Start...
 
-    public static boolean createUser(String email, String password) throws SQLException, ClassNotFoundException {
+    public static boolean createUser(UserDTO userDTO) throws SQLException, ClassNotFoundException {
 
         Connection connection = DBConnection.getInstance().getConnection();
         String sql = "INSERT INTO user VALUES (?,?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-        preparedStatement.setString(1, email);
-        preparedStatement.setString(2, PasswordManager.encrypt(password));
+        preparedStatement.setString(1, userDTO.getEmail());
+        preparedStatement.setString(2, PasswordManager.encrypt(userDTO.getPassword()));
 
         return preparedStatement.executeUpdate()>0;
     }
@@ -49,5 +49,10 @@ public class DatabaseAccessCode {
     }
 
     //.................User.....End...
+
+    //.....Customer...Start....
+
+
+    //.....Customer....End....
 
 }
