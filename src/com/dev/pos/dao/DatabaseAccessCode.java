@@ -65,8 +65,17 @@ public class DatabaseAccessCode {
        statement.setDouble(4,dto.getSalary());
        return statement.executeUpdate()>0;
     }
-    public static boolean updateCustomer(CustomerDTO dto){
-        return false;
+    public static boolean updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "UPDATE customer SET name =?,contact=?,salary=? WHERE email =?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1,dto.getName());
+        statement.setString(2,dto.getContact());
+        statement.setDouble(3,dto.getSalary());
+        statement.setString(4,dto.getEmail());
+        return statement.executeUpdate()>0;
+
     }
     public static boolean deleteCustomer(String email){
         return false;
