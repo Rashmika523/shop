@@ -1,16 +1,16 @@
 package com.dev.pos.dto;
 
-public class customerDTO {
+public class CustomerDTO {
 
     private String email;
     private String name;
     private String contact;
     private double salary;
 
-    public customerDTO() {
+    public CustomerDTO() {
     }
 
-    public customerDTO(String email, String name, String contact, double salary) {
+    public CustomerDTO(String email, String name, String contact, double salary) {
         this.email = email;
         this.name = name;
         this.contact = contact;
