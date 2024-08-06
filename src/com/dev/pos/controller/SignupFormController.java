@@ -1,6 +1,7 @@
 package com.dev.pos.controller;
 
 import com.dev.pos.db.DBConnection;
+import com.dev.pos.util.security.PasswordManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -36,7 +37,7 @@ public class SignupFormController {
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,txtEmail.getText());
-            preparedStatement.setString(2,txtPassword.getText());
+            preparedStatement.setString(2, PasswordManager.encrypt(txtPassword.getText().trim()));
 
             int count = preparedStatement.executeUpdate();
             if(count>0){
