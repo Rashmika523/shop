@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class CustomerFormController {
     public AnchorPane context;
@@ -42,23 +43,28 @@ public class CustomerFormController {
                 Double.valueOf(txtSalary.getText())
         );
 
-       if(btnSave.getText().equalsIgnoreCase("Save Customer")){
+        try {
 
-           CustomerDTO customer = DatabaseAccessCode.findCustomer(txtEmail.getText());
+            if (btnSave.getText().equalsIgnoreCase("Save Customer")) {
 
-           if(customer.getEmail().equalsIgnoreCase(txtEmail.getText())){
-               new Alert(Alert.AlertType.INFORMATION,"Customer is already saved...!").show();
-           }else {
-               boolean isSaved = DatabaseAccessCode.createCustomer(dto);
+                CustomerDTO customer = DatabaseAccessCode.findCustomer(txtEmail.getText());
 
-               if(isSaved){
-                   new Alert(Alert.AlertType.INFORMATION,"Customer has been saved...!").show();
-                   clearFields();
-               }else {
-                   new Alert(Alert.AlertType.INFORMATION,"Something went wrong, Try again...!").show();
-               }
-           }
-       }
+                if(customer!=null){
+                    new Alert(Alert.AlertType.INFORMATION,"Customer is already saved...!").show();
+                }else {
+                    boolean isSaved = DatabaseAccessCode.createCustomer(dto);
+                    if (isSaved) {
+                        new Alert(Alert.AlertType.INFORMATION, "Customer has been saved...!").show();
+                        clearFields();
+                    } else {
+                        new Alert(Alert.AlertType.INFORMATION, "Something went wrong, Try again...!").show();
+                    }
+                }
+
+            }
+        }catch (ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -76,5 +82,9 @@ public class CustomerFormController {
         txtSalary.clear();
         txtContact.clear();
         txtName.clear();
+    }
+
+    private void saveCustomer(CustomerDTO dto){
+
     }
 }

@@ -54,8 +54,16 @@ public class DatabaseAccessCode {
 
     //.....Customer...Start....
 
-    public static boolean createCustomer(CustomerDTO dto){
-        return false;
+    public static boolean createCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+
+       Connection connection = DBConnection.getInstance().getConnection();
+       String sql = "INSERT INTO customer VALUES (?,?,?,?)";
+       PreparedStatement statement = connection.prepareStatement(sql);
+       statement.setString(1,dto.getEmail());
+       statement.setString(2,dto.getName());
+       statement.setString(3,dto.getContact());
+       statement.setDouble(4,dto.getSalary());
+       return statement.executeUpdate()>0;
     }
     public static boolean updateCustomer(CustomerDTO dto){
         return false;
@@ -63,7 +71,21 @@ public class DatabaseAccessCode {
     public static boolean deleteCustomer(String email){
         return false;
     }
-    public static CustomerDTO findCustomer(String email){
+    public static CustomerDTO findCustomer(String email) throws SQLException, ClassNotFoundException {
+
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "SELECT * FROM customer WHERE email =?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1,email);
+        ResultSet resultSet = statement.executeQuery();
+        if(resultSet.next()){
+            return new CustomerDTO(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4)
+            );
+        }
         return null;
     }
     public static List<CustomerDTO> findAllCustomer(){
