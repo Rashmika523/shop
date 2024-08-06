@@ -6,11 +6,13 @@ import com.dev.pos.dto.UserDTO;
 import com.dev.pos.util.security.PasswordManager;
 import javafx.scene.control.Alert;
 
+import java.beans.BeanDescriptor;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseAccessCode {
@@ -27,7 +29,7 @@ public class DatabaseAccessCode {
         preparedStatement.setString(1, userDTO.getEmail());
         preparedStatement.setString(2, PasswordManager.encrypt(userDTO.getPassword()));
 
-        return preparedStatement.executeUpdate()>0;
+        return preparedStatement.executeUpdate() > 0;
     }
 
     public static UserDTO findUser(String email) throws SQLException, ClassNotFoundException {
@@ -56,38 +58,46 @@ public class DatabaseAccessCode {
 
     public static boolean createCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
 
-       Connection connection = DBConnection.getInstance().getConnection();
-       String sql = "INSERT INTO customer VALUES (?,?,?,?)";
-       PreparedStatement statement = connection.prepareStatement(sql);
-       statement.setString(1,dto.getEmail());
-       statement.setString(2,dto.getName());
-       statement.setString(3,dto.getContact());
-       statement.setDouble(4,dto.getSalary());
-       return statement.executeUpdate()>0;
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "INSERT INTO customer VALUES (?,?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, dto.getEmail());
+        statement.setString(2, dto.getName());
+        statement.setString(3, dto.getContact());
+        statement.setDouble(4, dto.getSalary());
+        return statement.executeUpdate() > 0;
     }
+
     public static boolean updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
 
         Connection connection = DBConnection.getInstance().getConnection();
         String sql = "UPDATE customer SET name =?,contact=?,salary=? WHERE email =?";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1,dto.getName());
-        statement.setString(2,dto.getContact());
-        statement.setDouble(3,dto.getSalary());
-        statement.setString(4,dto.getEmail());
-        return statement.executeUpdate()>0;
+        statement.setString(1, dto.getName());
+        statement.setString(2, dto.getContact());
+        statement.setDouble(3, dto.getSalary());
+        statement.setString(4, dto.getEmail());
+        return statement.executeUpdate() > 0;
 
     }
-    public static boolean deleteCustomer(String email){
-        return false;
+
+    public static boolean deleteCustomer(String email) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "DELETE FROM customer WHERE email =?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, email);
+        return statement.executeUpdate() > 0;
+
     }
+
     public static CustomerDTO findCustomer(String email) throws SQLException, ClassNotFoundException {
 
         Connection connection = DBConnection.getInstance().getConnection();
         String sql = "SELECT * FROM customer WHERE email =?";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1,email);
+        statement.setString(1, email);
         ResultSet resultSet = statement.executeQuery();
-        if(resultSet.next()){
+        if (resultSet.next()) {
             return new CustomerDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
@@ -97,11 +107,49 @@ public class DatabaseAccessCode {
         }
         return null;
     }
-    public static List<CustomerDTO> findAllCustomer(){
-        return null;
+
+    public static List<CustomerDTO> findAllCustomer() throws SQLException, ClassNotFoundException {
+
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "SELECT * FROM customer";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        while (resultSet.next()) {
+            customerDTOList.add(
+                    new CustomerDTO(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getDouble(4))
+            );
+        }
+        return customerDTOList;
     }
-    public static List<CustomerDTO> searchCustomer(String searchText){
-        return null;
+
+    public static List<CustomerDTO> searchCustomer(String searchText) throws SQLException, ClassNotFoundException {
+
+        searchText = "%" + searchText + "%";
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "SELECT * FROM customer WHERE email LIKE ? || name LIKE ? || contact LIKE ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+        statement.setString(1, searchText);
+        statement.setString(2, searchText);
+        statement.setString(3, searchText);
+
+        ResultSet resultSet = statement.executeQuery();
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+
+        while (resultSet.next()) {
+            customerDTOList.add(new CustomerDTO(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4)
+            ));
+        }
+        return customerDTOList;
     }
 
 
