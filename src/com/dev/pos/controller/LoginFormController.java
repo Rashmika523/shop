@@ -23,24 +23,7 @@ public class LoginFormController {
     public PasswordField txtPassword;
 
     public void btnLoginOnAction(ActionEvent actionEvent) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            String sql = "SELECT * FROM user WHERE email =?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, txtEmail.getText());
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                if (PasswordManager.checkPassword(txtPassword.getText().trim(), resultSet.getString("password"))) {
-                    setUI("DashboardForm");
-                }else {
-                    new Alert(Alert.AlertType.ERROR,"User Not found...!").show();
-                }
-            }else {
-                new Alert(Alert.AlertType.ERROR,"User Not found...!").show();
-            }
-        } catch (ClassNotFoundException | SQLException | IOException e) {
-            System.out.println(e.getMessage());
-        }
+
 
     }
 

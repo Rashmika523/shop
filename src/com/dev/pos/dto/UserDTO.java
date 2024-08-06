@@ -1,14 +1,14 @@
 package com.dev.pos.dto;
 
-public class User {
+public class UserDTO {
 
     private String email;
     private String password;
 
-    public User() {
+    public UserDTO() {
     }
 
-    public User(String email, String password) {
+    public UserDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }
