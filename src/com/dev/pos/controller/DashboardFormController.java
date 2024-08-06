@@ -16,9 +16,12 @@ public class DashboardFormController {
     public AnchorPane context;
 
     public void btnLogoutOnAction(ActionEvent actionEvent) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to Logout...?",ButtonType.NO,ButtonType.YES);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Do you want to Logout...?",ButtonType.NO,ButtonType.YES);
+
         Optional<ButtonType> buttonType = alert.showAndWait();
-        if(buttonType.equals(ButtonType.YES)){
+        if(buttonType.get().equals(ButtonType.YES)){
             setUI("LoginForm");
         }
     }
