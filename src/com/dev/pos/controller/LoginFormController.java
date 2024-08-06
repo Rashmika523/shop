@@ -23,10 +23,6 @@ public class LoginFormController {
     public PasswordField txtPassword;
 
     public void btnLoginOnAction(ActionEvent actionEvent) {
-    }
-
-    public void btnCreateAnAccountOnAction(ActionEvent actionEvent) throws IOException {
-
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             String sql = "SELECT * FROM user WHERE email =?";
@@ -46,6 +42,9 @@ public class LoginFormController {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public void btnCreateAnAccountOnAction(ActionEvent actionEvent) throws IOException {
 
         setUI("SignupForm");
     }
