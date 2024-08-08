@@ -178,6 +178,7 @@ public class DatabaseAccessCode {
         statement.setString(2,dto.getDescription());
         return statement.executeUpdate()>0;
     }
+
     public static boolean updateProduct(ProductDTO dto) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         String sql = "UPDATE product SET description=? WHERE code =?";

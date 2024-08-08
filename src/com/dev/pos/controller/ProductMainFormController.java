@@ -1,5 +1,6 @@
 package com.dev.pos.controller;
 
+import com.dev.pos.dao.DatabaseAccessCode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ProductMainFormController {
 
@@ -35,6 +37,19 @@ public class ProductMainFormController {
     public TableColumn colShowPrice;
     public TableColumn colSellingPrice;
     public TableColumn colMainDelete;
+
+    public void initialize(){
+        loadProductId();
+    }
+
+    private void loadProductId() {
+        try {
+            txtProductCode.setText(String.valueOf(DatabaseAccessCode.getLastProductId()));
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void btnBackToHome(ActionEvent actionEvent) {
     }
