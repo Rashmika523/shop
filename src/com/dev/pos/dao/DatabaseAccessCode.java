@@ -5,10 +5,6 @@ import com.dev.pos.dto.CustomerDTO;
 import com.dev.pos.dto.ProductDTO;
 import com.dev.pos.dto.UserDTO;
 import com.dev.pos.util.security.PasswordManager;
-import javafx.scene.control.Alert;
-
-import java.beans.BeanDescriptor;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
