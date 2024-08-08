@@ -158,6 +158,7 @@ public class CustomerFormController {
 
                 //Customer Delete
                 button.setOnAction(event -> {
+
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure...?",ButtonType.NO,ButtonType.YES);
                     Optional<ButtonType> buttonType = alert.showAndWait();
                     if(buttonType.get().equals(ButtonType.YES)){
@@ -172,8 +173,8 @@ public class CustomerFormController {
                         }catch (ClassNotFoundException | SQLException e){
                             e.printStackTrace();
                         }
-
                     }
+
                 });
             }
             tblCustomer.setItems(obList);
