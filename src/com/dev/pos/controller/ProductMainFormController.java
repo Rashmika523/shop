@@ -132,7 +132,7 @@ public class ProductMainFormController {
     public void btnAddNewBatchOnAction(ActionEvent actionEvent) throws IOException {
 
 
-        if(txtProductCode.getText().trim().length()>0){
+        if(txtSelectedProductCode.getText().trim().length()>0){
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/NewBatchForm.fxml"));
             Parent parent = fxmlLoader.load();
