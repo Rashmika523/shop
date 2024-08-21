@@ -4,10 +4,15 @@ import com.dev.pos.Enum.BoType;
 import com.dev.pos.bo.BoFactory;
 import com.dev.pos.bo.custom.ProductBo;
 import com.dev.pos.dao.DatabaseAccessCode;
+import com.dev.pos.dto.ProductDTO;
+import com.dev.pos.dto.tm.ProductTm;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -23,11 +28,11 @@ public class ProductMainFormController {
     public Button btnSave;
     public TextField txtSearch;
 
-    public TableView tblProduct;
-    public TableColumn colProductId;
-    public TableColumn colDescription;
-    public TableColumn colShowMore;
-    public TableColumn colDelete;
+    public TableView<ProductTm> tblProduct;
+    public TableColumn<ProductTm,Integer> colProductId;
+    public TableColumn<ProductTm,String> colDescription;
+    public TableColumn<ProductTm,Button> colShowMore;
+    public TableColumn<ProductTm,Button> colDelete;
 
     public TextField txtSelectedProductCode;
     public TextArea txtSelectedDescription;
@@ -43,8 +48,17 @@ public class ProductMainFormController {
 
     ProductBo productBo = BoFactory.getInstance().getBo(BoType.PRODUCT);
 
+    String searchText ="";
     public void initialize(){
+
         loadProductId();
+        colProductId.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colShowMore.setCellValueFactory(new PropertyValueFactory<>("showMorebtn"));
+        colDelete.setCellValueFactory(new PropertyValueFactory<>("deleteBtn"));
+
+        loadAllProducts(searchText);
+
     }
 
     private void loadProductId() {
@@ -78,5 +92,25 @@ public class ProductMainFormController {
 
     private void loadAllProducts(String searchText){
 
+        ObservableList<ProductTm> oblist = FXCollections.observableArrayList();
+
+        try {
+            for(ProductDTO p :productBo.findAllProducts()){
+                Button showMore = new Button("Show More");
+                Button deleteBtn = new Button("Delete");
+                ProductTm tm = new ProductTm(
+                        p.getCode(),
+                        p.getDescription(),
+                        showMore,
+                        deleteBtn
+                );
+                oblist.add(tm);
+            }
+
+            tblProduct.setItems(oblist);
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
