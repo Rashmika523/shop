@@ -19,7 +19,15 @@ public class NewBatchFormController {
     public TextArea txtDescription;
     public Button btnSave;
 
+    public void initialize(){
+        setQRcode();
+    }
+
     public void btnSaveOnAction(ActionEvent actionEvent) {
+    }
+
+    private void setQRcode(){
+
     }
 
 
