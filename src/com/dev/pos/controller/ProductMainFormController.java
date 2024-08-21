@@ -60,6 +60,13 @@ public class ProductMainFormController {
 
         loadAllProducts(searchText);
 
+        tblProduct.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null){
+                setData(newValue);
+            }
+        });
+
+
     }
 
     private void loadProductId() {
@@ -93,6 +100,22 @@ public class ProductMainFormController {
                     new Alert(Alert.AlertType.INFORMATION,"Product has been saved...!").show();
                     loadAllProducts(searchText);
                     loadProductId();
+                    clear();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Something went wrong...!").show();
+                }
+            }else {
+                boolean isUpdated = productBo.updateProduct(new ProductDTO(
+                        Integer.valueOf(txtProductCode.getText()),
+                        txtProductDescription.getText()
+                ));
+
+                if(isUpdated){
+                    new Alert(Alert.AlertType.INFORMATION,"Product has been updated...!").show();
+                    loadAllProducts(searchText);
+                    loadProductId();
+                    btnSave.setText("Save Product");
+                    clear();
                 }
             }
 
@@ -135,5 +158,19 @@ public class ProductMainFormController {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+    private void setData(ProductTm newValue){
+        btnSave.setText("Update Product");
+        txtProductCode.setText(String.valueOf(newValue.getCode()));
+        txtSelectedProductCode.setText(String.valueOf(newValue.getCode()));
+
+        txtProductDescription.setText(newValue.getDescription());
+        txtSelectedDescription.setText(newValue.getDescription());
+    }
+
+    private void clear(){
+        txtProductDescription.clear();
+        txtSelectedProductCode.clear();
+        txtSelectedDescription.clear();
     }
 }
