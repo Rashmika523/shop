@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,6 +20,7 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class ProductMainFormController {
 
@@ -45,6 +47,7 @@ public class ProductMainFormController {
     public TableColumn colShowPrice;
     public TableColumn colSellingPrice;
     public TableColumn colMainDelete;
+    public Button btnNewBatch;
 
     ProductBo productBo = BoFactory.getInstance().getBo(BoType.PRODUCT);
 
@@ -126,7 +129,15 @@ public class ProductMainFormController {
 
     }
 
-    public void btnAddNewBatchOnAction(ActionEvent actionEvent) {
+    public void btnAddNewBatchOnAction(ActionEvent actionEvent) throws IOException {
+
+        Stage stage = new Stage();
+        Parent load = FXMLLoader.load(Objects.requireNonNull(getClass()
+                .getResource("../view/NewBatchForm.fxml")));
+        stage.setScene(new Scene(load));
+        stage.show();
+        stage.centerOnScreen();
+
     }
 
     private void setUI(String location) throws IOException {
@@ -160,6 +171,8 @@ public class ProductMainFormController {
         }
     }
     private void setData(ProductTm newValue){
+
+        btnNewBatch.setDisable(false);
         btnSave.setText("Update Product");
         txtProductCode.setText(String.valueOf(newValue.getCode()));
         txtSelectedProductCode.setText(String.valueOf(newValue.getCode()));
