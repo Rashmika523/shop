@@ -12,7 +12,7 @@ public class QRdataGenerator {
 
         for (int i = 0; i < length; i++) {
             sb.append(DATA.charAt(
-                    new Random().nextInt(45)
+                    new Random().nextInt(DATA.length())
             ));
         }
         return sb.toString();
