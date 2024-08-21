@@ -29,10 +29,10 @@ public class ProductMainFormController {
     public TextField txtSearch;
 
     public TableView<ProductTm> tblProduct;
-    public TableColumn<ProductTm,Integer> colProductId;
-    public TableColumn<ProductTm,String> colDescription;
-    public TableColumn<ProductTm,Button> colShowMore;
-    public TableColumn<ProductTm,Button> colDelete;
+    public TableColumn<ProductTm, Integer> colProductId;
+    public TableColumn<ProductTm, String> colDescription;
+    public TableColumn<ProductTm, Button> colShowMore;
+    public TableColumn<ProductTm, Button> colDelete;
 
     public TextField txtSelectedProductCode;
     public TextArea txtSelectedDescription;
@@ -48,8 +48,9 @@ public class ProductMainFormController {
 
     ProductBo productBo = BoFactory.getInstance().getBo(BoType.PRODUCT);
 
-    String searchText ="";
-    public void initialize(){
+    String searchText = "";
+
+    public void initialize() {
 
         loadProductId();
         colProductId.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -78,6 +79,28 @@ public class ProductMainFormController {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
+
+        try {
+
+            if (btnSave.getText().equalsIgnoreCase("save product")) {
+
+                boolean isSaved = productBo.saveProduct(new ProductDTO(
+                        Integer.valueOf(txtProductCode.getText()),
+                        txtProductDescription.getText()
+                ));
+
+                if(isSaved){
+                    new Alert(Alert.AlertType.INFORMATION,"Product has been saved...!").show();
+                    loadAllProducts(searchText);
+                    loadProductId();
+                }
+            }
+
+        }catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+
     }
 
     public void btnAddNewBatchOnAction(ActionEvent actionEvent) {
@@ -85,17 +108,17 @@ public class ProductMainFormController {
 
     private void setUI(String location) throws IOException {
         Stage stage = (Stage) context.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/"+location+".fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/" + location + ".fxml"))));
         stage.show();
         stage.centerOnScreen();
     }
 
-    private void loadAllProducts(String searchText){
+    private void loadAllProducts(String searchText) {
 
         ObservableList<ProductTm> oblist = FXCollections.observableArrayList();
 
         try {
-            for(ProductDTO p :productBo.findAllProducts()){
+            for (ProductDTO p : productBo.findAllProducts()) {
                 Button showMore = new Button("Show More");
                 Button deleteBtn = new Button("Delete");
                 ProductTm tm = new ProductTm(
