@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import org.apache.commons.codec.binary.Base64;
 
 import java.awt.image.BufferedImage;
@@ -41,6 +42,8 @@ public class NewBatchFormController {
 
     String uniqueData = null;
     BufferedImage bufferedImage = null;
+
+    Stage  stage = new Stage();
 
     public void initialize() {
         try {
@@ -72,9 +75,17 @@ public class NewBatchFormController {
 
             );
 
-            batchBo.saveBatch(dto);
+            boolean isSaved = batchBo.saveBatch(dto);
 
-        } catch (IOException | SQLException | ClassNotFoundException e) {
+            if(isSaved){
+                new Alert(Alert.AlertType.INFORMATION,"Batch has been saved...!").show();
+                Thread.sleep(3000);
+                this.stage.close();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Something went wrong, Try again...!").show();
+            }
+
+        } catch (IOException | SQLException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -96,9 +107,10 @@ public class NewBatchFormController {
         imgQR.setImage(image);
     }
 
-    public void setProductCode(int code, String description) {
+    public void setProductCode(int code, String description, Stage stage) {
         txtProductCode.setText(String.valueOf(code));
         txtDescription.setText(description);
+        this.stage =stage;
     }
 
 }
