@@ -23,6 +23,7 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,6 +67,15 @@ public class ProductMainFormController {
         colShowMore.setCellValueFactory(new PropertyValueFactory<>("showMorebtn"));
         colDelete.setCellValueFactory(new PropertyValueFactory<>("deleteBtn"));
 
+        colNo.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colBuyingPrice.setCellValueFactory(new PropertyValueFactory<>("buyingPrice"));
+        colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+        colShowPrice.setCellValueFactory(new PropertyValueFactory<>("showPrice"));
+        colSellingPrice.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
+        colMainDelete.setCellValueFactory(new PropertyValueFactory<>("button"));
+
+
         loadAllProducts(searchText);
 
         tblProduct.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -74,6 +84,15 @@ public class ProductMainFormController {
             }
         });
 
+        tblProductMain.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null){
+                try {
+                    loadExternalUI(true,newValue);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -136,26 +155,7 @@ public class ProductMainFormController {
 
     public void btnAddNewBatchOnAction(ActionEvent actionEvent) throws IOException {
 
-
-        if(txtSelectedProductCode.getText().trim().length()>0){
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/NewBatchForm.fxml"));
-            Parent parent = fxmlLoader.load();
-            NewBatchFormController controller = fxmlLoader.getController();
-            Stage stage = new Stage();
-            controller.setProductCode(
-                    Integer.parseInt(txtSelectedProductCode.getText()),
-                    txtSelectedDescription.getText(),
-                    stage
-            );
-
-            stage.setScene(new Scene(parent));
-            stage.show();
-            stage.centerOnScreen();
-        }else {
-            new Alert(Alert.AlertType.WARNING,"Please select valid Product...!").show();
-        }
-
+        loadExternalUI(false,null);
 
     }
 
@@ -198,6 +198,9 @@ public class ProductMainFormController {
 
         txtProductDescription.setText(newValue.getDescription());
         txtSelectedDescription.setText(newValue.getDescription());
+
+
+        loadBatchData(newValue.getCode());
     }
 
     private void clear(){
@@ -206,14 +209,13 @@ public class ProductMainFormController {
         txtSelectedDescription.clear();
     }
 
-    private void loadBatchData(int code){
-
+    private void loadBatchData(int code) {
         try {
-
             ObservableList<BatchTm> oblist = FXCollections.observableArrayList();
             List<BatchDTO> allBatch = batchBo.findAllBatch(code);
-            if ( allBatch!= null) {
-                for(BatchDTO b : allBatch){
+
+            if(allBatch !=null){
+                for (BatchDTO b : allBatch) {
                     Button button = new Button("Delete");
                     BatchTm tm = new BatchTm(
                             b.getCode(),
@@ -230,8 +232,37 @@ public class ProductMainFormController {
                 tblProductMain.setItems(oblist);
             }
 
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void loadExternalUI(boolean state,BatchTm tm) throws IOException {
+
+        if(txtSelectedProductCode.getText().trim().length()>0){
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/NewBatchForm.fxml"));
+            Parent parent = fxmlLoader.load();
+            NewBatchFormController controller = fxmlLoader.getController();
+            Stage stage = new Stage();
+            controller.setProductCode(
+                    Integer.parseInt(txtSelectedProductCode.getText()),
+                    txtSelectedDescription.getText(),
+                    stage,
+                    state,
+                    tm
+            );
+
+            stage.setScene(new Scene(parent));
+            stage.show();
+            stage.centerOnScreen();
+
+
+        }else {
+            new Alert(Alert.AlertType.WARNING,"Please select valid Product...!").show();
+        }
+
+
+
     }
 }

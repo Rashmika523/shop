@@ -19,25 +19,25 @@ public class BatchBoImpl implements BatchBo {
     public boolean saveBatch(BatchDTO dto) throws SQLException, ClassNotFoundException {
         return batchDao.save(
                 new Batch(
-                dto.getCode(),
-                dto.getBarcode(),
-                dto.getQtyOnHand(),
-                dto.getSellingPrice(),
-                dto.isAvailable(),
-                dto.getShowPrice(),
-                dto.getBuyingPrice(),
-                dto.getProductCode()
-        ));
+                        dto.getCode(),
+                        dto.getBarcode(),
+                        dto.getQtyOnHand(),
+                        dto.getSellingPrice(),
+                        dto.isAvailable(),
+                        dto.getShowPrice(),
+                        dto.getBuyingPrice(),
+                        dto.getProductCode()
+                ));
     }
 
     @Override
     public List<BatchDTO> findAllBatch(int productCode) throws SQLException, ClassNotFoundException {
-        List<Batch> allBatch = batchDao.findAllBatch(productCode);
 
+        List<Batch> allBatch = batchDao.findAllBatch(productCode);
         List<BatchDTO> dtoList = new ArrayList<>();
 
-        if(allBatch!=null){
-            for (Batch b : allBatch){
+        if(allBatch != null){
+            for (Batch b : allBatch) {
                 dtoList.add(new BatchDTO(
                         b.getCode(),
                         b.getBarcode(),
@@ -49,9 +49,30 @@ public class BatchBoImpl implements BatchBo {
                         b.getProductCode()
                 ));
             }
+            return dtoList;
+        }
+        return null;
+    }
+
+    @Override
+    public BatchDTO findBatch(String code) throws SQLException, ClassNotFoundException {
+
+        Batch batch = batchDao.find(code);
+
+        if(batch!=null){
+            return new BatchDTO(
+                    batch.getCode(),
+                    batch.getBarcode(),
+                    batch.getQtyOnHand(),
+                    batch.getSellingPrice(),
+                    batch.isAvailable(),
+                    batch.getShowPrice(),
+                    batch.getBuyingPrice(),
+                    batch.getProductCode()
+            );
         }
 
-        return dtoList;
-
+        return null;
     }
+
 }
