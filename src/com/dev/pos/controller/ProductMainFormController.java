@@ -2,6 +2,7 @@ package com.dev.pos.controller;
 
 import com.dev.pos.Enum.BoType;
 import com.dev.pos.bo.BoFactory;
+import com.dev.pos.bo.custom.BatchBo;
 import com.dev.pos.bo.custom.ProductBo;
 import com.dev.pos.dao.DatabaseAccessCode;
 import com.dev.pos.dto.ProductDTO;
@@ -50,6 +51,7 @@ public class ProductMainFormController {
     public Button btnNewBatch;
 
     ProductBo productBo = BoFactory.getInstance().getBo(BoType.PRODUCT);
+    BatchBo batchBo = BoFactory.getInstance().getBo(BoType.BATCH);
 
     String searchText = "";
 
@@ -199,5 +201,9 @@ public class ProductMainFormController {
         txtProductDescription.clear();
         txtSelectedProductCode.clear();
         txtSelectedDescription.clear();
+    }
+
+    private void loadBatchData(){
+
     }
 }
