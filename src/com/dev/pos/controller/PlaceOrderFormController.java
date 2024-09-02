@@ -174,6 +174,13 @@ public class PlaceOrderFormController {
                 tblOrder.setItems(oblist);
                 clearFileds();
                 txtBarcode.requestFocus();
+                setTotal();
+
+                button.setOnAction(event -> {
+                    oblist.remove(tm);
+                    tblOrder.refresh();
+                    setTotal();
+                });
 
             } else {
                 new Alert(Alert.AlertType.ERROR, "Please Add Valid Quantity").show();
@@ -184,6 +191,7 @@ public class PlaceOrderFormController {
             tblOrder.refresh();
             clearFileds();
             txtBarcode.requestFocus();
+            setTotal();
         }
 
 
@@ -209,5 +217,13 @@ public class PlaceOrderFormController {
         txtDescount.clear();
         txtShowPrice.clear();
         txtSellingPrice.clear();
+    }
+
+    private void setTotal(){
+        double total =0;
+        for(CartTm tm : oblist){
+            total+=tm.getTotal();
+        }
+        lblTotal.setText(String.valueOf(total+"/="));
     }
 }
