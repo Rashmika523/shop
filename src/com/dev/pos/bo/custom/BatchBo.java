@@ -2,6 +2,7 @@ package com.dev.pos.bo.custom;
 
 import com.dev.pos.bo.SuperBo;
 import com.dev.pos.dto.BatchDTO;
+import com.dev.pos.dto.ProductDetailsJoinDto;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,5 +14,7 @@ public interface BatchBo extends SuperBo {
     public List<BatchDTO> findAllBatch(int productCode) throws SQLException, ClassNotFoundException;
 
     public BatchDTO findBatch(String code) throws SQLException, ClassNotFoundException;
+
+    public ProductDetailsJoinDto findProductJoinDetail(String code);
 
 }

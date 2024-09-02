@@ -3,6 +3,8 @@ package com.dev.pos.dao.impl;
 import com.dev.pos.Entity.Batch;
 import com.dev.pos.dao.CrudUtil;
 import com.dev.pos.dao.custom.BatchDao;
+import com.dev.pos.dto.BatchDTO;
+import com.dev.pos.dto.ProductDetailsJoinDto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,7 +41,7 @@ public class BatchDaoImpl implements BatchDao {
     public Batch find(String s) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM batch WHERE code =?";
         ResultSet set = CrudUtil.execute(sql, s);
-        if(set.next()){
+        if (set.next()) {
             return new Batch(
                     set.getString(1),
                     set.getString(2),
@@ -71,9 +73,9 @@ public class BatchDaoImpl implements BatchDao {
         ResultSet set = CrudUtil.execute(sql, productCode);
         List<Batch> list = new ArrayList<>();
 
-        while (set.next()){
+        while (set.next()) {
 
-            list.add( new Batch(
+            list.add(new Batch(
                     set.getString(1),
                     set.getString(2),
                     set.getInt(3),
@@ -85,5 +87,29 @@ public class BatchDaoImpl implements BatchDao {
             ));
         }
         return list;
+    }
+
+    @Override
+    public ProductDetailsJoinDto findProductDetailJoinData(String code) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT * FROM batch b join product p ON b.code = ? AND b.product_code = p.code";
+        ResultSet resultSet = CrudUtil.execute(sql, code);
+
+        if (resultSet.next()) {
+            return new ProductDetailsJoinDto(
+                    resultSet.getInt(9),
+                    resultSet.getString(10),
+                    new BatchDTO(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getInt(3),
+                            resultSet.getDouble(4),
+                            resultSet.getBoolean(5),
+                            resultSet.getDouble(6),
+                            resultSet.getDouble(7),
+                            resultSet.getInt(8)
+                    )
+            );
+        }
+        return null;
     }
 }
