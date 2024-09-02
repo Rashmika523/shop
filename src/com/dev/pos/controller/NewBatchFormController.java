@@ -44,14 +44,14 @@ public class NewBatchFormController {
     String uniqueData = null;
     BufferedImage bufferedImage = null;
 
-    Stage  stage = new Stage();
+    Stage stage = new Stage();
 
     public void initialize() {
-        try {
+       /* try {
             setQRcode();
         } catch (WriterException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
@@ -80,12 +80,12 @@ public class NewBatchFormController {
             boolean isSaved = batchBo.saveBatch(dto);
 
             System.out.println(isSaved);
-            if(isSaved){
-                new Alert(Alert.AlertType.INFORMATION,"Batch has been saved...!").show();
+            if (isSaved) {
+                new Alert(Alert.AlertType.INFORMATION, "Batch has been saved...!").show();
                 Thread.sleep(3000);
                 this.stage.close();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Something went wrong, Try again...!").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Something went wrong, Try again...!").show();
             }
 
         } catch (IOException | SQLException | ClassNotFoundException | InterruptedException e) {
@@ -112,24 +112,36 @@ public class NewBatchFormController {
 
     public void setProductCode(int code, String description, Stage stage, boolean state, BatchTm tm) {
 
-        this.stage =stage;
+        this.stage = stage;
 
         try {
 
-
             if (state) {
-                batchBo.findBatch(tm.getCode());
-                txtQTy.setText(String.valueOf(tm.getQty()));
-                txtBuyingPrice.setText(String.valueOf(tm.getBuyingPrice()));
-                txtSellingPrice.setText(String.valueOf(tm.getSellingPrice()));
-                txtShowPrice.setText(String.valueOf(tm.getShowPrice()));
-                discount.setUserData(tm.isDiscount());
-                txtProductCode.setText(String.valueOf(code));
-                txtDescription.setText(description);
+                BatchDTO dto = batchBo.findBatch(tm.getCode());
+
+                if (dto != null) {
+                    txtQTy.setText(String.valueOf(tm.getQty()));
+                    txtBuyingPrice.setText(String.valueOf(tm.getBuyingPrice()));
+                    txtSellingPrice.setText(String.valueOf(tm.getSellingPrice()));
+                    txtShowPrice.setText(String.valueOf(tm.getShowPrice()));
+                    discount.setUserData(tm.isDiscount());
+                    txtProductCode.setText(String.valueOf(code));
+                    txtDescription.setText(description);
+
+
+                    byte[] data = Base64.decodeBase64(dto.getBarcode());
+                    imgQR.setImage(new Image(new ByteArrayInputStream(data)));
+
+                } else {
+                    stage.close();
+                }
+
             } else {
-                stage.close();
+                setQRcode();
+                txtDescription.setText(description);
+                txtProductCode.setText(String.valueOf(code));
             }
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException | WriterException e) {
             e.printStackTrace();
         }
     }
