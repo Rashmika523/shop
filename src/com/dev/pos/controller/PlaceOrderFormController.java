@@ -100,5 +100,7 @@ public class PlaceOrderFormController {
 
     private void fetchLoyalityCardData(String email){
 
+        hyprLoyalityDetails.setVisible(true);
+        hyprLoyalityDetails.setText("+ New Loyalty");
     }
 }

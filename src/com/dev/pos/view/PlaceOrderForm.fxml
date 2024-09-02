@@ -64,7 +64,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Hyperlink fx:id="hyprLoyalityDetails" layoutX="31.0" layoutY="209.0" prefHeight="28.0" prefWidth="223.0" text="Show Loyality Card Details" underline="true">
+      <Hyperlink fx:id="hyprLoyalityDetails" layoutX="31.0" layoutY="209.0" prefHeight="28.0" prefWidth="223.0" text="Show Loyality Card Details" underline="true" visible="false">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
