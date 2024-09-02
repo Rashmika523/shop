@@ -6,10 +6,14 @@ import com.dev.pos.bo.custom.BatchBo;
 import com.dev.pos.bo.custom.CustomerBo;
 import com.dev.pos.dto.CustomerDTO;
 import com.dev.pos.dto.ProductDetailsJoinDto;
+import com.dev.pos.dto.tm.CartTm;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -36,19 +40,31 @@ public class PlaceOrderFormController {
     public TextField txtBuyingPrice;
     public TextField txtQtyOnHand;
     public TextField txtQty;
-    public TableView tblOrder;
-    public TableColumn colBarcode;
-    public TableColumn colDescription;
-    public TableColumn colSellingPrice;
-    public TableColumn colDiscount;
-    public TableColumn colShowPrice;
-    public TableColumn colQty;
-    public TableColumn colTotal;
-    public TableColumn colDelete;
+
+    public TableView<CartTm> tblOrder;
+    public TableColumn<CartTm,String> colBarcode;
+    public TableColumn<CartTm,String> colDescription;
+    public TableColumn<CartTm,Double> colSellingPrice;
+    public TableColumn<CartTm,Double> colDiscount;
+    public TableColumn<CartTm,Double> colShowPrice;
+    public TableColumn<CartTm,Integer> colQty;
+    public TableColumn<CartTm,Double> colTotal;
+    public TableColumn<CartTm,Button> colDelete;
     public Label lblTotal;
 
     CustomerBo customerBo = BoFactory.getInstance().getBo(BoType.CUSTOMER);
     BatchBo batchBo = BoFactory.getInstance().getBo(BoType.BATCH);
+
+    public void initialize(){
+        colBarcode.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colSellingPrice.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
+        colDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
+        colShowPrice.setCellValueFactory(new PropertyValueFactory<>("showPrice"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colDelete.setCellValueFactory(new PropertyValueFactory<>("button"));
+    }
 
     public void btnCompleOrder(ActionEvent actionEvent) {
     }
@@ -126,5 +142,36 @@ public class PlaceOrderFormController {
         }catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
         }
+    }
+
+    ObservableList<CartTm> oblist = FXCollections.observableArrayList();
+
+    public void addToCartOnAction(ActionEvent actionEvent) {
+
+        int qty =Integer.parseInt(txtQty.getText());
+        double sellingPrice = Double.parseDouble(txtSellingPrice.getText());
+        double total = qty * sellingPrice;
+        Button button = new Button("Remove");
+
+        if(Integer.parseInt(txtQtyOnHand.getText())>qty){
+
+            CartTm tm = new CartTm(
+                    txtBarcode.getText(),
+                    txtDescription.getText(),
+                    sellingPrice,Double.parseDouble(txtDescount.getText()),
+                    Double.parseDouble(txtShowPrice.getText()),
+                    qty,
+                    total,
+                    button
+            );
+
+            oblist.add(tm);
+
+            tblOrder.setItems(oblist);
+
+        }else {
+            new Alert(Alert.AlertType.ERROR,"Please Add Valid Quantity").show();
+        }
+
     }
 }
