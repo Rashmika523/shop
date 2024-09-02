@@ -1,8 +1,14 @@
 package com.dev.pos.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+
+import java.io.IOException;
 
 public class PlaceOrderFormController {
     public AnchorPane context;
@@ -37,12 +43,32 @@ public class PlaceOrderFormController {
     public void btnCompleOrder(ActionEvent actionEvent) {
     }
 
-    public void btnBackToHome(ActionEvent actionEvent) {
+    public void btnBackToHome(ActionEvent actionEvent) throws IOException {
+        setUI("DashboardForm",false);
     }
 
-    public void btnAddNewCustomer(ActionEvent actionEvent) {
+    public void btnAddNewCustomer(ActionEvent actionEvent) throws IOException {
+        setUI("CustomerForm",true);
     }
 
-    public void btnAddNewProduct(ActionEvent actionEvent) {
+    public void btnAddNewProduct(ActionEvent actionEvent) throws IOException {
+        setUI("ProductMainForm",true);
+    }
+
+    private void setUI(String location,boolean state) throws IOException {
+        Stage stage = null;
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../view/"+location+".fxml")));
+
+        if(state){
+            stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            stage.centerOnScreen();
+        }else {
+            stage = (Stage) context.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+        }
+
     }
 }
