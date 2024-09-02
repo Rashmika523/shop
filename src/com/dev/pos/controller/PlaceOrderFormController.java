@@ -1,5 +1,9 @@
 package com.dev.pos.controller;
 
+import com.dev.pos.Enum.BoType;
+import com.dev.pos.bo.BoFactory;
+import com.dev.pos.bo.custom.CustomerBo;
+import com.dev.pos.dto.CustomerDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class PlaceOrderFormController {
     public AnchorPane context;
@@ -40,6 +45,8 @@ public class PlaceOrderFormController {
     public TableColumn colDelete;
     public Label lblTotal;
 
+    CustomerBo customerBo = BoFactory.getInstance().getBo(BoType.CUSTOMER);
+
     public void btnCompleOrder(ActionEvent actionEvent) {
     }
 
@@ -69,6 +76,29 @@ public class PlaceOrderFormController {
             stage.setScene(scene);
             stage.centerOnScreen();
         }
+
+    }
+
+    public void searchCustomerOnAction(ActionEvent actionEvent) {
+
+        try{
+            CustomerDTO dto =customerBo.findCustomer(txtEmail.getText().trim());
+            if(dto!=null){
+                txtContact.setText(dto.getContact());
+                txtName.setText(dto.getName());
+                txtSalary.setText(String.valueOf(dto.getSalary()));
+                fetchLoyalityCardData(txtEmail.getText().trim());
+                txtBarcode.requestFocus();
+            }else {
+                new Alert(Alert.AlertType.INFORMATION,"Customer Not Found...!").show();
+            }
+        }catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private void fetchLoyalityCardData(String email){
 
     }
 }
