@@ -74,7 +74,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtBarcode" layoutX="180.0" layoutY="266.0" prefHeight="30.0" prefWidth="173.0" promptText="Barcode">
+      <TextField fx:id="txtBarcode" layoutX="180.0" layoutY="266.0" onAction="#loadProductOnAction" prefHeight="30.0" prefWidth="173.0" promptText="Barcode">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
