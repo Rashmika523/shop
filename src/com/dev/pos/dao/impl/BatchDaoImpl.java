@@ -112,4 +112,10 @@ public class BatchDaoImpl implements BatchDao {
         }
         return null;
     }
+
+    @Override
+    public boolean manageQty(String barcode, int qty) throws SQLException, ClassNotFoundException {
+        String sql ="UPDATE batch SET qty_on_hand=(qty_on_hand-?) WHERE code=?";
+        return CrudUtil.execute(sql,qty,barcode);
+    }
 }

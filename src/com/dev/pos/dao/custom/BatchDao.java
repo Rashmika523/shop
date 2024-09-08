@@ -12,4 +12,6 @@ public interface BatchDao extends CrudDao<Batch,String> {
     public List<Batch> findAllBatch(int productCode) throws SQLException, ClassNotFoundException;
 
     public ProductDetailsJoinDto findProductDetailJoinData(String code) throws SQLException, ClassNotFoundException;
+
+    public boolean manageQty(String barcode,int qty) throws SQLException, ClassNotFoundException;
 }
