@@ -47,4 +47,14 @@ public class OrderDetailDaoImpl implements OrderDetailDao{
     public List<OrderDetail> search(Integer integer) throws SQLException, ClassNotFoundException {
         return null;
     }
+
+
+    /*Transaction
+    Set autoCommit =false;
+    save Order;
+    item List=>one by one save;
+    update product qty;
+    return true;
+    commit;
+    set autoCommit = true;*/
 }

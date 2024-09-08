@@ -2,7 +2,7 @@ package com.dev.pos.dto;
 
 public class ItemDetailDTO {
 
-    private int detailCode;
+    private String detailCode;
     private int qty;
     private double discount;
     private double amount;
@@ -10,18 +10,18 @@ public class ItemDetailDTO {
     public ItemDetailDTO() {
     }
 
-    public ItemDetailDTO(int detailCode, int qty, double discount, double amount) {
+    public ItemDetailDTO(String detailCode, int qty, double discount, double amount) {
         this.detailCode = detailCode;
         this.qty = qty;
         this.discount = discount;
         this.amount = amount;
     }
 
-    public int getDetailCode() {
+    public String getDetailCode() {
         return detailCode;
     }
 
-    public void setDetailCode(int detailCode) {
+    public void setDetailCode(String detailCode) {
         this.detailCode = detailCode;
     }
 

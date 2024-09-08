@@ -1,6 +1,7 @@
 package com.dev.pos.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderDetailDTO {
 
@@ -14,14 +15,17 @@ public class OrderDetailDTO {
     public OrderDetailDTO() {
     }
 
-    public OrderDetailDTO(int code, Date issueDate, double totalCost, String customerEmail, double discount, String userEmail) {
+    public OrderDetailDTO(int code, Date issueDate, double totalCost, String customerEmail, double discount, String userEmail, List<ItemDetailDTO> dtoList) {
         this.code = code;
         this.issueDate = issueDate;
         this.totalCost = totalCost;
         this.customerEmail = customerEmail;
         this.discount = discount;
         this.userEmail = userEmail;
+        this.dtoList = dtoList;
     }
+
+    private List<ItemDetailDTO> dtoList;
 
     public int getCode() {
         return code;
@@ -69,5 +73,13 @@ public class OrderDetailDTO {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public List<ItemDetailDTO> getDtoList() {
+        return dtoList;
+    }
+
+    public void setDtoList(List<ItemDetailDTO> dtoList) {
+        this.dtoList = dtoList;
     }
 }

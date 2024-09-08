@@ -27,12 +27,12 @@ public class ItemDetailDaoImpl implements ItemDetailDao {
     }
 
     @Override
-    public boolean delete(Integer integer) throws SQLException, ClassNotFoundException {
+    public boolean delete(String string) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public ItemDetail find(Integer integer) throws SQLException, ClassNotFoundException {
+    public ItemDetail find(String string) throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -42,7 +42,7 @@ public class ItemDetailDaoImpl implements ItemDetailDao {
     }
 
     @Override
-    public List<ItemDetail> search(Integer integer) throws SQLException, ClassNotFoundException {
+    public List<ItemDetail> search(String string) throws SQLException, ClassNotFoundException {
         return null;
     }
 }

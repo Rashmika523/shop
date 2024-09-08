@@ -2,8 +2,9 @@ package com.dev.pos.Entity;
 
 public class ItemDetail implements SuperEntity {
 
-    private int orderDetailCode;
+
     private int order;
+    private String orderDetailCode;
     private int qty;
     private double discount;
     private double amount;
@@ -11,20 +12,12 @@ public class ItemDetail implements SuperEntity {
     public ItemDetail() {
     }
 
-    public ItemDetail(int orderDetailCode, int order, int qty, double discount, double amount) {
-        this.orderDetailCode = orderDetailCode;
+    public ItemDetail(int order, String orderDetailCode, int qty, double discount, double amount) {
         this.order = order;
+        this.orderDetailCode = orderDetailCode;
         this.qty = qty;
         this.discount = discount;
         this.amount = amount;
-    }
-
-    public int getOrderDetailCode() {
-        return orderDetailCode;
-    }
-
-    public void setOrderDetailCode(int orderDetailCode) {
-        this.orderDetailCode = orderDetailCode;
     }
 
     public int getOrder() {
@@ -33,6 +26,14 @@ public class ItemDetail implements SuperEntity {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public String getOrderDetailCode() {
+        return orderDetailCode;
+    }
+
+    public void setOrderDetailCode(String orderDetailCode) {
+        this.orderDetailCode = orderDetailCode;
     }
 
     public int getQty() {
