@@ -2,7 +2,7 @@ package com.dev.pos.Entity;
 
 import java.util.Date;
 
-public class OrderDetail {
+public class OrderDetail implements SuperEntity {
 
     private int code;
     private Date issueDate;

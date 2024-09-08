@@ -1,10 +1,7 @@
 package com.dev.pos.dao;
 
 import com.dev.pos.Enum.DaoType;
-import com.dev.pos.dao.impl.BatchDaoImpl;
-import com.dev.pos.dao.impl.CustomerDaoImpl;
-import com.dev.pos.dao.impl.ProductDaoImpl;
-import com.dev.pos.dao.impl.UserDaoImpl;
+import com.dev.pos.dao.impl.*;
 
 public class DaoFactory {
 
@@ -30,6 +27,10 @@ public class DaoFactory {
                 return (T) new ProductDaoImpl();
             case BATCH:
                 return (T) new BatchDaoImpl();
+            case ITEM_DETAIL:
+                return (T) new ItemDetailDaoImpl();
+            case ORDER_DETAIL:
+                return (T) new OrderDetailDaoImpl();
             default:
                 return null;
         }
